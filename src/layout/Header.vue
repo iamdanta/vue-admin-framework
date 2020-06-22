@@ -26,89 +26,89 @@
 </template>
 
 <script>
-import { userAuth } from '@/utils/auth';
+  import {localDataUser} from '@/utils/local-data';
 
-export default {
-  data() {
-    return {
-      userName: ''
-    };
-  },
-  methods: {
-    command(type) {
-      switch (type) {
-        case 'logout':
-          this.logout();
-          break;
-        case 'change-password':
-          this.changePassword();
-          break;
-        default:
+  export default {
+    data() {
+      return {
+        userName: ''
+      };
+    },
+    methods: {
+      command(type) {
+        switch (type) {
+          case 'logout':
+            this.logout();
+            break;
+          case 'change-password':
+            this.changePassword();
+            break;
+          default:
+        }
+      },
+      logout() {
+        localDataUser.clear()
+        this.$router.push('/login');
+      },
+      changePassword() {
+        this.$router.push('/change-password');
       }
     },
-    logout() {
-      userAuth.clear();
-      this.$router.push('/login');
-    },
-    changePassword() {
-      this.$router.push('/change-password');
+    mounted() {
+      const data = localDataUser.get();
+      if (data) {
+        this.userName = data.userName;
+      }
     }
-  },
-  mounted() {
-    const data = userAuth.getToken();
-    if (data) {
-      this.userName = data.userName;
-    }
-  }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/common-variables.scss';
+  @import '~@/styles/common-variables.scss';
 
-.header {
-  height: $header-height;
-  margin-top: -$header-height;
-  padding: 0 10px;
-  background: #fff;
-  color: #999;
+  .header {
+    height: $header-height;
+    margin-top: -$header-height;
+    padding: 0 10px;
+    background: #fff;
+    color: #999;
 
-  .logo-image {
-    height: 60px;
-    border-radius: 50%;
-  }
+    .logo-image {
+      height: 60px;
+      border-radius: 50%;
+    }
 
-  .logo-text {
-    font-size: 18px;
-    margin-left: 5px;
-  }
+    .logo-text {
+      font-size: 18px;
+      margin-left: 5px;
+    }
 
-  .logo-sub-text {
-    font-size: 12px;
-    color: #b0c2e8;
-  }
+    .logo-sub-text {
+      font-size: 12px;
+      color: #b0c2e8;
+    }
 
-  .user-box {
-    padding: 4px 8px;
-    user-select: none;
-    color: white;
-    transition: background 0.2s;
+    .user-box {
+      padding: 4px 8px;
+      user-select: none;
+      color: white;
+      transition: background 0.2s;
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.1);
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .user-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #dddddd;
+    }
+
+    .user-name,
+    .user-box-arrow {
+      margin-left: 8px;
     }
   }
-
-  .user-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #dddddd;
-  }
-
-  .user-name,
-  .user-box-arrow {
-    margin-left: 8px;
-  }
-}
 </style>
